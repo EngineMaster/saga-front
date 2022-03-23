@@ -10,6 +10,7 @@ import { NodeBuilder } from '../node-builder/node-builder';
 import { Logger } from '../logger/logger';
 import { NodeStorage } from '../node-storage/node-storage';
 import { HandleEndNodeService } from '../node-service/nodes/handle-end.node.service';
+import { NODE_TOKEN } from '../node-service/base-node.service';
 
 @NgModule({
   declarations: [
@@ -20,9 +21,9 @@ import { HandleEndNodeService } from '../node-service/nodes/handle-end.node.serv
     AppRoutingModule
   ],
   providers: [
-    {provide: 'FIRST_NODE', useValue: new HandleSmthNodeService(new Logger())},
-    {provide: 'SECOND_NODE', useValue: new HandleNothingNodeService(new Logger())},
-    {provide: 'THIRD_NODE', useValue: new HandleEndNodeService(new Logger())},
+    {provide: NODE_TOKEN, useValue: new HandleSmthNodeService(new Logger()), multi: true},
+    {provide: NODE_TOKEN, useValue: new HandleNothingNodeService(new Logger()), multi: true},
+    {provide: NODE_TOKEN, useValue: new HandleEndNodeService(new Logger()), multi: true},
     Processor,
     NodeBuilder,
     Logger,

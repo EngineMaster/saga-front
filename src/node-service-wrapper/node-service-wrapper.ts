@@ -42,4 +42,8 @@ export class NodeServiceWrapper {
 
     nextNode.handle(nodeParam);
   }
+
+  get Node() {
+    return this._node;
+  }
 }

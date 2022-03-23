@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 
 @Injectable()
 export class HandleSmthNodeService extends BaseNodeService implements NodeInterface {
-  public readonly nodeNode: string = 'node_handle';
+  public readonly nodeName: string = 'node_handle';
   public nodeCompleted = new Subject<boolean>();
 
   getDescription(): string {

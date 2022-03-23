@@ -5,22 +5,31 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class Processor {
-  constructor(protected nodeBuilder: NodeBuilder, private _logger: Logger) { }
 
-  private _firstScenario = {
-    start: 'firstNode',
-    nodes: {
-      'firstNode': {
-        success: 'secondNode'
-      },
-      'secondNode' : {
-        success: 'thirdNode'
+  constructor(
+    protected nodeBuilder: NodeBuilder,
+    private _logger: Logger
+  ) { }
+
+  availableScenarios = [
+    {
+      firstScenario: {
+        start: 'node_handle',
+        nodes: {
+          'node_handle': {
+            success: 'node_none'
+          },
+          'node_none' : {
+            success: 'node_end'
+          }
+        }
       }
     }
-  }
+  ]
 
-  public run(scenario: string) {
-    const node = this.nodeBuilder.build(this._firstScenario.start, this._firstScenario.nodes);
+  public run(scenarioAlias: string) {
+    const node = this.nodeBuilder.build(this.availableScenarios[0].firstScenario.start, this.availableScenarios[0].firstScenario.nodes);
+
     node.handle(new NodeParamModel());
   }
 

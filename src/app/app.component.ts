@@ -1,8 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Processor } from '../processor/processor';
-import { NodeBuilder } from '../node-builder/node-builder';
-import { Logger } from '../logger/logger';
-import { NodeStorage } from '../node-storage/node-storage';
 
 @Component({
   selector: 'app-root',
