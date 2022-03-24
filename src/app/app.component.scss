@@ -1,5 +1,6 @@
 $border-radius-base: 10px;
 $color-base: #333334;
+$indent-base: 10px;
 
 .container__banner {
   width: 80vw;
@@ -13,5 +14,6 @@ $color-base: #333334;
     border-radius: $border-radius-base;
     border: 1px solid $color-base;
     margin-top: calc(50% - 40px);
+    padding: $indent-base;
   }
 }
