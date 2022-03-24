@@ -24,7 +24,11 @@ export class HandleEndNodeService extends BaseNodeService implements NodeInterfa
 
   handle(param: NodeParamModel): void {
     this.logger.info(this.getDescription());
-    setTimeout(() => this.nodeCompleted.next(true), 1);
+    // @ts-ignore
+    param.getObject('obser').value.observable.subscribe(() => {
+      param.getProcessorResult().setData({finishedProcessorData: 'someData'})
+      this.nodeCompleted.next(true);
+    });
   }
 
 }

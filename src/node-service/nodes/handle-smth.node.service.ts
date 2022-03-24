@@ -35,7 +35,7 @@ export class HandleSmthNodeService extends BaseNodeService implements NodeInterf
       take(1)
     );
     param.setObject('obser', new SomeObservableDto(someRequest));
-    someRequest.subscribe(() => this.nodeCompleted.next(true));
+    setTimeout(() => this.nodeCompleted.next(true), 1000);
   }
 
 }

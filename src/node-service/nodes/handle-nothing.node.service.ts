@@ -2,7 +2,7 @@ import { BaseNodeService } from '../base-node.service';
 import { NodeInterface } from '../../interface/node-interface';
 import { NodeParamModel } from '../../node-param/node-param.model';
 import { Injectable } from '@angular/core';
-import { Subject, take, tap } from 'rxjs';
+import { interval, Subject, switchMap, take, tap } from 'rxjs';
 import { Logger } from '../../logger/logger';
 
 @Injectable()
@@ -26,10 +26,10 @@ export class HandleNothingNodeService extends BaseNodeService implements NodeInt
     this.logger.info(this.getDescription());
     // @ts-ignore
     param.getObject('obser').value.observable
-      .subscribe((v: any) => {
-        param.getProcessorResult().setData({finishedProcessorData: 'someData'});
-        this.nodeCompleted.next(true);
-      });
+      .pipe(
+        switchMap(() => interval(5000))
+      );
+    setTimeout(() => this.nodeCompleted.next(true), 1000);
   }
 
 }
