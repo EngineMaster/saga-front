@@ -1,0 +1,17 @@
+$border-radius-base: 10px;
+$color-base: #333334;
+
+.container__banner {
+  width: 80vw;
+  margin: 0 auto;
+  text-align: center;
+  overflow: hidden;
+
+  &__h1 {
+    font-family: 'Roboto Thin', sans-serif;
+    font-size: 60px;
+    border-radius: $border-radius-base;
+    border: 1px solid $color-base;
+    margin-top: calc(50% - 40px);
+  }
+}

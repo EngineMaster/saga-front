@@ -2,48 +2,51 @@ import { NodeBuilder } from '../node-builder/node-builder';
 import { NodeParamModel } from '../node-param/node-param.model';
 import { Logger } from '../logger/logger';
 import { Injectable } from '@angular/core';
-import { NodeParamQuery } from '../node-storage/query/node-param.query';
-import { Subject } from 'rxjs';
+import { filter, Observable, switchMap } from 'rxjs';
+import { ProcessorResultModel } from '../processor-result/processor-result.model';
 
 @Injectable()
-export class Processor {
+export abstract class Processor {
 
   constructor(
     protected nodeBuilder: NodeBuilder,
     private _logger: Logger,
   ) { }
 
-  availableScenarios =
-    {
-      firstScenario: {
-        start: 'node_handle',
-        nodes: {
-          'node_handle': {
-            success: 'node_none'
-          },
-          'node_none' : {
-            success: 'node_end'
-          }
-        }
-      },
-      secondScenario: {
 
-      }
-    }
-
-
-  public run(scenarioAlias: string) {
+  public run(scenarioAlias: string): Observable<any> {
     // @ts-ignore
-    if (!this.availableScenarios[scenarioAlias]) {
-      return;
+    const scenarioIsNotValid = !this.getAvailableScenarios()[scenarioAlias]?.start || !this.getAvailableScenarios()[scenarioAlias]?.nodes;
+
+    // @ts-ignore
+    if (!this.getAvailableScenarios()[scenarioAlias] || scenarioIsNotValid) {
+      return new Observable<any>(subscriber => {
+        this._logger.info('Неверное имя сценария');
+        subscriber.next({error: 'Сценарий не существует'});
+      });
     }
+
+    // @ts-ignore
+    const scenario = this.getAvailableScenarios()[scenarioAlias];
+
     const node = this.nodeBuilder.build(
       // @ts-ignore
-      this.availableScenarios[scenarioAlias].start,
+      scenario.start,
       // @ts-ignore
-      this.availableScenarios[scenarioAlias].nodes
+      scenario.nodes
     );
-    node.handle(new NodeParamModel('DATA 2', new Subject()));
+
+    const param = new NodeParamModel(new ProcessorResultModel());
+
+    node.handle(param);
+
+    return param.processFinished
+      .pipe(
+        filter(finished => finished === true),
+        switchMap(() => param.getProcessorResult().getData()),
+      );
   }
+
+  abstract getAvailableScenarios(): object;
 
 }

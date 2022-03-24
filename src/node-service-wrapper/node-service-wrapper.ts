@@ -11,13 +11,17 @@ export class NodeServiceWrapper {
   handle(nodeParam: NodeParamModel) {
     this._logger.info(`Запуск ноды ${this._node.getId()}`);
     this._node.handle(nodeParam);
-    this._node.nodeCompleted.pipe(
-      tap(result => {
-          result ? this._logger.info('Успшешно') : this._logger.error('Ошибка выполнения');
-          const direction = result ? 'success' : 'error'
-          this.next(direction, nodeParam);
-      })
-    ).subscribe()
+
+    this._node.nodeCompleted
+      .pipe(
+        take(1),
+        tap(result => {
+            result ? this._logger.info('Успшешно') : this._logger.error('Ошибка выполнения');
+            const direction = result ? 'success' : 'error'
+            this.next(direction, nodeParam);
+        })
+      )
+      .subscribe()
   }
 
   public setDirections(directions: any[]): void {
@@ -36,11 +40,12 @@ export class NodeServiceWrapper {
   protected next(direction: string, nodeParam: NodeParamModel): void {
     const nextNode = this._directions.filter(d => d.direction === direction)[0]?.value ?? null;
 
-    this._logger.info('starting next node')
-
     if (!nextNode) {
+      nodeParam.processFinished.next(true);
       return;
     }
+
+    this._logger.info('Переходим к следующей ноде')
 
     nextNode.handle(nodeParam);
   }

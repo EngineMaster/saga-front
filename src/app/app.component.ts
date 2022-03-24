@@ -1,25 +1,17 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { Processor } from '../processor/processor';
-import { HandleSmthNodeService } from '../node-service/nodes/handle-smth.node.service';
-import { HandleNothingNodeService } from '../node-service/nodes/handle-nothing.node.service';
-import { HandleEndNodeService } from '../node-service/nodes/handle-end.node.service';
+import { Component, OnInit } from '@angular/core';
+import { SometingMakingProcessor } from '../processor/processors/someting-making.processor';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  providers: [
-    HandleSmthNodeService,
-    HandleNothingNodeService,
-    HandleEndNodeService
-  ]
 })
 export class AppComponent implements OnInit {
-  title = 'AbankingTestApp';
+  title = 'COR';
 
-  constructor(private _processor: Processor) { }
+  constructor(private _processor: SometingMakingProcessor) { }
 
   ngOnInit() {
-    this._processor.run('firstScenario');
+    this._processor.run('firstScenario').subscribe(data => console.log(data));;
   }
 }
