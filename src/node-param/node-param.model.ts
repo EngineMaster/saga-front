@@ -4,14 +4,24 @@ export interface StorageClassInterface {
 }
 
 export class NodeParamModel {
-  private storage: StorageClassInterface[] = [];
+  public data: any;
+  public observable: any;
 
-  public getObjectByClass(classToGet: string) {
-    const indexOfClass = this.storage.map(object => object.name).indexOf(classToGet)
-    return this.storage[indexOfClass];
+
+  constructor(
+    private paramData: string,
+    private observableOrSubject: any
+  ) {
+    this.data = paramData;
+    this.observable = observableOrSubject;
   }
 
-  public setObject(objectName: string, object: any) {
-    this.storage.push({name: objectName, classValue: object});
+  get Data() {
+    return this.data;
   }
+
+  get Observable() {
+    return this.observable;
+  }
+
 }

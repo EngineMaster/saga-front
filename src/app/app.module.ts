@@ -11,6 +11,8 @@ import { Logger } from '../logger/logger';
 import { NodeStorage } from '../node-storage/node-storage';
 import { HandleEndNodeService } from '../node-service/nodes/handle-end.node.service';
 import { NODE_TOKEN } from '../node-service/base-node.service';
+import { NodeParamStore } from '../node-storage/node-param';
+import { NodeParamQuery } from '../node-storage/query/node-param.query';
 
 @NgModule({
   declarations: [
@@ -21,13 +23,12 @@ import { NODE_TOKEN } from '../node-service/base-node.service';
     AppRoutingModule
   ],
   providers: [
-    {provide: NODE_TOKEN, useValue: new HandleSmthNodeService(new Logger()), multi: true},
-    {provide: NODE_TOKEN, useValue: new HandleNothingNodeService(new Logger()), multi: true},
-    {provide: NODE_TOKEN, useValue: new HandleEndNodeService(new Logger()), multi: true},
     Processor,
     NodeBuilder,
     Logger,
-    NodeStorage
+    NodeStorage,
+    NodeParamStore,
+    NodeParamQuery
   ],
   bootstrap: [AppComponent]
 })

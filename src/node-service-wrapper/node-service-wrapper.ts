@@ -1,7 +1,7 @@
 import { Logger } from '../logger/logger';
 import { NodeInterface } from '../interface/node-interface';
 import { NodeParamModel } from '../node-param/node-param.model';
-import { tap } from 'rxjs';
+import { take, tap } from 'rxjs';
 
 export class NodeServiceWrapper {
   private _directions: any[] = [];
@@ -20,8 +20,7 @@ export class NodeServiceWrapper {
     ).subscribe()
   }
 
-  // @ts-ignore
-  public setDirections(directions): void {
+  public setDirections(directions: any[]): void {
     this._directions = directions;
   }
 
@@ -36,6 +35,9 @@ export class NodeServiceWrapper {
 
   protected next(direction: string, nodeParam: NodeParamModel): void {
     const nextNode = this._directions.filter(d => d.direction === direction)[0]?.value ?? null;
+
+    this._logger.info('starting next node')
+
     if (!nextNode) {
       return;
     }

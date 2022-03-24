@@ -30,7 +30,6 @@ export class NodeBuilder {
     const startNode = this._getNodeClass(start);
 
     this._logger.info('Сбилдили ноды, выполняем логику нод');
-
     return startNode;
   }
 
