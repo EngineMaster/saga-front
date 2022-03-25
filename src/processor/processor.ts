@@ -21,7 +21,7 @@ export abstract class Processor {
     // @ts-ignore
     if (!this.getAvailableScenarios()[scenarioAlias] || scenarioIsNotValid) {
       return new Observable<any>(subscriber => {
-        this._logger.info('Неверное имя сценария');
+        Logger.info('Неверное имя сценария');
         subscriber.next({error: 'Сценарий не существует'});
       });
     }

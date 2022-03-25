@@ -7,11 +7,15 @@ import { SometingMakingProcessor } from '../processor/processors/someting-making
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'COR';
+  private title = 'Chain of Responsibility Pattern';
 
   constructor(private _processor: SometingMakingProcessor) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     this._processor.run('firstScenario').subscribe(data => console.log(data));;
+  }
+
+  public getAppTitle() {
+    return this.title;
   }
 }

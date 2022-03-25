@@ -1,5 +1,5 @@
 import { BaseNodeService } from '../base-node.service';
-import { NodeInterface } from '../../interface/node-interface';
+import { NodeInterface } from '../../interface/node.interface';
 import { NodeParamModel } from '../../node-param/node-param.model';
 import { Injectable } from '@angular/core';
 import { interval, Subject, switchMap, take, tap } from 'rxjs';
@@ -11,12 +11,6 @@ export class HandleSmthNodeService extends BaseNodeService implements NodeInterf
   public readonly nodeName: string = 'node_handle';
   public nodeCompleted = new Subject<boolean>();
 
-  constructor(
-    logger: Logger,
-  ) {
-    super(logger);
-  }
-
   getDescription(): string {
     return 'Что-то хэндлим';
   }
@@ -26,7 +20,7 @@ export class HandleSmthNodeService extends BaseNodeService implements NodeInterf
   }
 
   handle(param: NodeParamModel): void {
-    this.logger.info(this.getDescription());
+    Logger.info(this.getDescription());
     const someRequest = interval(3000).pipe(
       tap(completes => {
         this.nodeCompleted.next(true);

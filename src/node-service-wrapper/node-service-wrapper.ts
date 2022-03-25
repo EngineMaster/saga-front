@@ -1,22 +1,22 @@
 import { Logger } from '../logger/logger';
-import { NodeInterface } from '../interface/node-interface';
+import { NodeInterface } from '../interface/node.interface';
 import { NodeParamModel } from '../node-param/node-param.model';
 import { take, tap } from 'rxjs';
 
 export class NodeServiceWrapper {
   private _directions: any[] = [];
 
-  constructor(private _logger: Logger, private _node: NodeInterface) { }
+  constructor(private _node: NodeInterface) { }
 
   handle(nodeParam: NodeParamModel) {
-    this._logger.info(`Запуск ноды ${this._node.getId()}`);
+    Logger.info(`Запуск ноды ${this._node.getId()}`);
     this._node.handle(nodeParam);
 
     this._node.nodeCompleted
       .pipe(
         take(1),
         tap(result => {
-            result ? this._logger.info('Успшешно') : this._logger.error('Ошибка выполнения');
+            result ? Logger.info('Успшешно') : Logger.error('Ошибка выполнения');
             const direction = result ? 'success' : 'error'
             this.next(direction, nodeParam);
         })
@@ -45,7 +45,7 @@ export class NodeServiceWrapper {
       return;
     }
 
-    this._logger.info('Переходим к следующей ноде')
+    Logger.info('Переходим к следующей ноде')
 
     nextNode.handle(nodeParam);
   }

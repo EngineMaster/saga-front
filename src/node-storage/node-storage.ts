@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NodeInterface } from '../interface/node-interface';
+import { NodeInterface } from '../interface/node.interface';
 import { NodeServiceWrapper } from '../node-service-wrapper/node-service-wrapper';
 import { Logger } from '../logger/logger';
 import { HandleSmthNodeService } from '../node-service/nodes/handle-smth.node.service';
@@ -21,14 +21,14 @@ export class NodeStorage {
     protected logger: Logger,
   ) {
     this._availableNodes = [
-      new HandleSmthNodeService(this.logger),
-      new HandleNothingNodeService(this.logger),
-      new HandleEndNodeService(this.logger)
+      new HandleSmthNodeService(),
+      new HandleNothingNodeService(),
+      new HandleEndNodeService()
     ];
     this._nodes = this._availableNodes.map(node => {
       return {
         alias: node.nodeName,
-        instance: new NodeServiceWrapper(this.logger, node)
+        instance: new NodeServiceWrapper(node)
       } as NodeStorageInterface;
     });
   }

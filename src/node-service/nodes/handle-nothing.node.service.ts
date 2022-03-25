@@ -1,5 +1,5 @@
 import { BaseNodeService } from '../base-node.service';
-import { NodeInterface } from '../../interface/node-interface';
+import { NodeInterface } from '../../interface/node.interface';
 import { NodeParamModel } from '../../node-param/node-param.model';
 import { Injectable } from '@angular/core';
 import { interval, Subject, switchMap, take, tap } from 'rxjs';
@@ -10,10 +10,6 @@ export class HandleNothingNodeService extends BaseNodeService implements NodeInt
   public readonly nodeName: string = 'node_none';
   public nodeCompleted = new Subject<boolean>();
 
-  constructor(_logger: Logger) {
-    super(_logger);
-  }
-
   getDescription(): string {
     return 'Здесь выводится следующая нода';
   }
@@ -23,7 +19,7 @@ export class HandleNothingNodeService extends BaseNodeService implements NodeInt
   }
 
   handle(param: NodeParamModel): void {
-    this.logger.info(this.getDescription());
+    Logger.info(this.getDescription());
     // @ts-ignore
     param.getObject('obser').value.observable
       .pipe(

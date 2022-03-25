@@ -13,7 +13,7 @@ export class NodeBuilder {
   }
 
   build(start: string, nodes: any) {
-    this._logger.info('Запуск процессора');
+    Logger.info('Запуск процессора');
 
     Object.keys(nodes).forEach(n => {
       const directions: any = [];
@@ -29,7 +29,7 @@ export class NodeBuilder {
 
     const startNode = this._getNodeClass(start);
 
-    this._logger.info('Сбилдили ноды, выполняем логику нод');
+    Logger.info('Сбилдили ноды, выполняем логику нод');
     return startNode;
   }
 
